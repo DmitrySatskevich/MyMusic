@@ -7,15 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F542403629D45B7F00C6430F /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F542403529D45B7F00C6430F /* SearchVC.swift */; };
 		F5EA9FF729D458820071B86E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA9FF629D458820071B86E /* AppDelegate.swift */; };
 		F5EA9FF929D458820071B86E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA9FF829D458820071B86E /* SceneDelegate.swift */; };
 		F5EA9FFB29D458820071B86E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA9FFA29D458820071B86E /* ViewController.swift */; };
 		F5EA9FFE29D458820071B86E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5EA9FFC29D458820071B86E /* Main.storyboard */; };
 		F5EAA00029D458830071B86E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5EA9FFF29D458830071B86E /* Assets.xcassets */; };
 		F5EAA00329D458830071B86E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5EAA00129D458830071B86E /* LaunchScreen.storyboard */; };
+		F5EAA00B29D459540071B86E /* MainTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EAA00A29D459540071B86E /* MainTabBarVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F542403529D45B7F00C6430F /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		F5EA9FF329D458820071B86E /* MyMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5EA9FF629D458820071B86E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F5EA9FF829D458820071B86E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		F5EA9FFF29D458830071B86E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F5EAA00229D458830071B86E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F5EAA00429D458830071B86E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F5EAA00A29D459540071B86E /* MainTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +41,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F542403429D45B1600C6430F /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				F5EA9FF629D458820071B86E /* AppDelegate.swift */,
+				F5EA9FF829D458820071B86E /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
 		F5EA9FEA29D458820071B86E = {
 			isa = PBXGroup;
 			children = (
@@ -56,11 +69,12 @@
 		F5EA9FF529D458820071B86E /* MyMusic */ = {
 			isa = PBXGroup;
 			children = (
-				F5EA9FF629D458820071B86E /* AppDelegate.swift */,
-				F5EA9FF829D458820071B86E /* SceneDelegate.swift */,
+				F5EAA00A29D459540071B86E /* MainTabBarVC.swift */,
+				F542403529D45B7F00C6430F /* SearchVC.swift */,
 				F5EA9FFA29D458820071B86E /* ViewController.swift */,
 				F5EA9FFC29D458820071B86E /* Main.storyboard */,
 				F5EA9FFF29D458830071B86E /* Assets.xcassets */,
+				F542403429D45B1600C6430F /* AppDelegate */,
 				F5EAA00129D458830071B86E /* LaunchScreen.storyboard */,
 				F5EAA00429D458830071B86E /* Info.plist */,
 			);
@@ -139,8 +153,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5EA9FFB29D458820071B86E /* ViewController.swift in Sources */,
+				F542403629D45B7F00C6430F /* SearchVC.swift in Sources */,
 				F5EA9FF729D458820071B86E /* AppDelegate.swift in Sources */,
 				F5EA9FF929D458820071B86E /* SceneDelegate.swift in Sources */,
+				F5EAA00B29D459540071B86E /* MainTabBarVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
