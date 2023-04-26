@@ -1,5 +1,5 @@
 //
-//  SearchVC.swift
+//  SearchMusicVC.swift
 //  MyMusic
 //
 //  Created by dzmitry on 29.03.23.
@@ -13,7 +13,7 @@ struct TrackModel {
     var artistName: String
 }
 
-class SearchVC: UITableViewController {
+class SearchMusicVC: UITableViewController {
     
     var networkService = NetworkService()
     private var timer: Timer?
@@ -50,9 +50,9 @@ class SearchVC: UITableViewController {
     }
 }
 
-// MARK: - SearchVC + UISearchBarDelegate
+// MARK: - SearchMusicVC + UISearchBarDelegate
 
-extension SearchVC: UISearchBarDelegate {
+extension SearchMusicVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         timer?.invalidate()
