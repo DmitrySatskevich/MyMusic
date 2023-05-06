@@ -22,6 +22,8 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
     private var searchViewModel = SearchViewModel.init(cells: [])
     private var timer: Timer?
     
+    private lazy var footerView = FooterView()
+    
   // MARK: Setup
   
   private func setup() {
@@ -62,17 +64,18 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
         
         let nib = UINib(nibName: "TrackCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: TrackCell.reuseId)
+        tableView.tableFooterView = footerView
     }
   
   func displayData(viewModel: Search.Model.ViewModel.ViewModelData) {
 
       switch viewModel {
-      case .some:
-          print("viewController .some")
       case .displayTracks(let searchViewModel):
-          print("viewController .displayTracks")
           self.searchViewModel = searchViewModel
           tableView.reloadData()
+          footerView.hideLoader()
+      case .displayFooterView:
+          footerView.showLoader()
       }
   }
   
@@ -94,10 +97,36 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellViewModel = searchViewModel.cells[indexPath.row]
+        
+        let window = UIApplication.shared.connectedScenes
+        .filter({$0.activationState == .foregroundActive})
+        .map({$0 as? UIWindowScene})
+        .compactMap({$0})
+        .first?.windows
+        .filter({$0.isKeyWindow}).first
+        let trackDetailsView = Bundle.main.loadNibNamed("TrackDetailView", owner: self, options: nil)?.first as! TrackDetailView
+        window?.addSubview(trackDetailsView)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 84
     }
     
+    // метод отбражения текста, до появления ячеек
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "Please enter search term above..."
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        return label
+    }
+    
+    // метод скрытия текста, после появления ячеек
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return searchViewModel.cells.count > 0 ? 0 : 250
+    }
 }
 
 // MARK: - SearchViewController + UISearchBarDelegate

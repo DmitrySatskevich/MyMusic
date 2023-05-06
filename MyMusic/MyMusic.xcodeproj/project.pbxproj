@@ -16,9 +16,12 @@
 		F52DED9529F923D5000052E4 /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52DED8E29F923D5000052E4 /* SearchInteractor.swift */; };
 		F52DED9929F9268A000052E4 /* SearchViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F52DED9829F9268A000052E4 /* SearchViewController.storyboard */; };
 		F52DED9C29F92C85000052E4 /* UIViewController + Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52DED9B29F92C85000052E4 /* UIViewController + Storyboard.swift */; };
+		F53EB48A2A03EA5300FC7C29 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53EB4892A03EA5300FC7C29 /* FooterView.swift */; };
 		F542403629D45B7F00C6430F /* SearchMusicVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F542403529D45B7F00C6430F /* SearchMusicVC.swift */; };
 		F563ED0529F010F1003CE870 /* SearchResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F563ED0429F010F1003CE870 /* SearchResponseModel.swift */; };
 		F577A7FA29F834120046E5CC /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F577A7F929F834120046E5CC /* NetworkService.swift */; };
+		F5D517CF2A06B49E00EFD139 /* TrackDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D517CE2A06B49E00EFD139 /* TrackDetailView.swift */; };
+		F5D517D12A06B4BD00EFD139 /* TrackDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5D517D02A06B4BD00EFD139 /* TrackDetailView.xib */; };
 		F5E907FF29FBF16B00998A6F /* TrackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5E907FE29FBF16B00998A6F /* TrackCell.xib */; };
 		F5E9080129FBF1AD00998A6F /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E9080029FBF1AD00998A6F /* TrackCell.swift */; };
 		F5EA9FF729D458820071B86E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA9FF629D458820071B86E /* AppDelegate.swift */; };
@@ -42,9 +45,12 @@
 		F52DED8E29F923D5000052E4 /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
 		F52DED9829F9268A000052E4 /* SearchViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchViewController.storyboard; sourceTree = "<group>"; };
 		F52DED9B29F92C85000052E4 /* UIViewController + Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Storyboard.swift"; sourceTree = "<group>"; };
+		F53EB4892A03EA5300FC7C29 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		F542403529D45B7F00C6430F /* SearchMusicVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMusicVC.swift; sourceTree = "<group>"; };
 		F563ED0429F010F1003CE870 /* SearchResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponseModel.swift; sourceTree = "<group>"; };
 		F577A7F929F834120046E5CC /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		F5D517CE2A06B49E00EFD139 /* TrackDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailView.swift; sourceTree = "<group>"; };
+		F5D517D02A06B4BD00EFD139 /* TrackDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackDetailView.xib; sourceTree = "<group>"; };
 		F5E907FE29FBF16B00998A6F /* TrackCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackCell.xib; sourceTree = "<group>"; };
 		F5E9080029FBF1AD00998A6F /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
 		F5EA9FF329D458820071B86E /* MyMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +96,8 @@
 		F52DED8829F92396000052E4 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				F5D21CC22A069E4F00646256 /* TrackDetailView */,
+				F53EB4882A03EA3B00FC7C29 /* FooterView */,
 				F5E907FD29FBF13100998A6F /* Cell */,
 				F52DED9829F9268A000052E4 /* SearchViewController.storyboard */,
 				F52DED8D29F923D5000052E4 /* SearchViewController.swift */,
@@ -119,6 +127,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		F53EB4882A03EA3B00FC7C29 /* FooterView */ = {
+			isa = PBXGroup;
+			children = (
+				F53EB4892A03EA5300FC7C29 /* FooterView.swift */,
+			);
+			path = FooterView;
+			sourceTree = "<group>";
+		};
 		F542403429D45B1600C6430F /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +142,15 @@
 				F5EA9FF829D458820071B86E /* SceneDelegate.swift */,
 			);
 			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		F5D21CC22A069E4F00646256 /* TrackDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				F5D517D02A06B4BD00EFD139 /* TrackDetailView.xib */,
+				F5D517CE2A06B49E00EFD139 /* TrackDetailView.swift */,
+			);
+			path = TrackDetailView;
 			sourceTree = "<group>";
 		};
 		F5E907FD29FBF13100998A6F /* Cell */ = {
@@ -234,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5EAA00329D458830071B86E /* LaunchScreen.storyboard in Resources */,
+				F5D517D12A06B4BD00EFD139 /* TrackDetailView.xib in Resources */,
 				F5E907FF29FBF16B00998A6F /* TrackCell.xib in Resources */,
 				F5EAA00029D458830071B86E /* Assets.xcassets in Resources */,
 				F52DED9929F9268A000052E4 /* SearchViewController.storyboard in Resources */,
@@ -295,6 +321,7 @@
 				F5EA9FFB29D458820071B86E /* ViewController.swift in Sources */,
 				F542403629D45B7F00C6430F /* SearchMusicVC.swift in Sources */,
 				F52DED9529F923D5000052E4 /* SearchInteractor.swift in Sources */,
+				F53EB48A2A03EA5300FC7C29 /* FooterView.swift in Sources */,
 				F5E9080129FBF1AD00998A6F /* TrackCell.swift in Sources */,
 				F5EA9FF729D458820071B86E /* AppDelegate.swift in Sources */,
 				F5EA9FF929D458820071B86E /* SceneDelegate.swift in Sources */,
@@ -304,6 +331,7 @@
 				F52DED9329F923D5000052E4 /* SearchModels.swift in Sources */,
 				F5EAA00B29D459540071B86E /* MainTabBarVC.swift in Sources */,
 				F52DED9029F923D5000052E4 /* SearchPresenter.swift in Sources */,
+				F5D517CF2A06B49E00EFD139 /* TrackDetailView.swift in Sources */,
 				F577A7FA29F834120046E5CC /* NetworkService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
