@@ -107,6 +107,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         .first?.windows
         .filter({$0.isKeyWindow}).first
         let trackDetailsView = Bundle.main.loadNibNamed("TrackDetailView", owner: self, options: nil)?.first as! TrackDetailView
+        // данные по композиции передаем на TrackDetailView
+        trackDetailsView.set(viewModel: cellViewModel)
         window?.addSubview(trackDetailsView)
     }
     
