@@ -9,6 +9,11 @@ import UIKit
 import AVKit
 import SDWebImage
 
+protocol TrackMovingDelegate: AnyObject {
+    func moveBackForPreviousTrack() -> SearchViewModel.Cell?
+    func moveForwardForPreviousTrack() -> SearchViewModel.Cell?
+}
+
 class TrackDetailView: UIView {
     
     @IBOutlet weak var trackImageView: UIImageView!
@@ -25,6 +30,8 @@ class TrackDetailView: UIView {
         avPlayer.automaticallyWaitsToMinimizeStalling = false // снижаем задержку загрузки данных до минимума
         return avPlayer
     }()
+    
+    weak var delegate: TrackMovingDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -118,8 +125,7 @@ class TrackDetailView: UIView {
         guard let duration = player.currentItem?.duration else { return }
         let durationInSeconds = CMTimeGetSeconds (duration)
         let seekTimeUnSeconds = Float64(percentage) * durationInSeconds
-        let seekTime = CMTimeMakeWithSeconds ( seekTimeUnSeconds,
-        preferredTimescale: 1)
+        let seekTime = CMTimeMakeWithSeconds(seekTimeUnSeconds, preferredTimescale: 1)
         player.seek(to: seekTime)
     }
     
@@ -128,16 +134,21 @@ class TrackDetailView: UIView {
     }
     
     @IBAction func previousTrack(_ sender: Any) {
+        let cellViewModel = delegate?.moveBackForPreviousTrack()
+        guard let cellInfo = cellViewModel else { return }
+        self.set(viewModel: cellInfo)
     }
     
     @IBAction func nextTrack(_ sender: Any) {
+        let cellViewModel = delegate?.moveForwardForPreviousTrack()
+        guard let cellInfo = cellViewModel else { return }
+        self.set(viewModel: cellInfo)
     }
     
     @IBAction func playPauseAction(_ sender: Any) {
-        let pause = #imageLiteral(resourceName: "pause") // let pause = #imageLiteral(
         if player.timeControlStatus == .paused {
             player.play()
-            playPauseBtn.setImage(pause, for: .normal)
+            playPauseBtn.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
             enlargeTrackImageView()
         } else {
             player.pause()
