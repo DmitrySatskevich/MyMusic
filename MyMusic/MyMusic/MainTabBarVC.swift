@@ -32,7 +32,9 @@ class MainTabBarVC: UITabBarController {
         viewControllers = [generateViewController(rootViewController: searchVC, image: #imageLiteral(resourceName: "search"), title: "Search"), generateViewController(rootViewController: ViewController(), image: #imageLiteral(resourceName: "library"), title: "Library")]
     }
     
-    private func generateViewController(rootViewController: UIViewController, image: UIImage, title: String) -> UIViewController {
+    private func generateViewController(rootViewController: UIViewController,
+                                        image: UIImage,
+                                        title: String) -> UIViewController {
         let navigationVC = UINavigationController(rootViewController: rootViewController)
         navigationVC.tabBarItem.image = image
         navigationVC.tabBarItem.title = title
@@ -43,7 +45,6 @@ class MainTabBarVC: UITabBarController {
     
     // метод анимированного появления и смахивания TrackDetailView
     private func setupTrackDetailView() {
-        
         trackDetailView.translatesAutoresizingMaskIntoConstraints = false
         trackDetailView.mainTabBarVCDelegate = self
         trackDetailView.delegate = searchVC
@@ -65,8 +66,8 @@ class MainTabBarVC: UITabBarController {
 // логика анимированного появления и смахивания TrackDetailView
 extension MainTabBarVC: MainTabBarVCDelegate {
     func maximizeTrackDetailController(viewModel: SearchViewModel.Cell?) {
-        maximizedTopAnchorConstraint.isActive = true
         minimizedTopAnchorConstraint.isActive = false
+        maximizedTopAnchorConstraint.isActive = true
         maximizedTopAnchorConstraint.constant = 0
         bottomAnchorConstraint.constant = 0
         

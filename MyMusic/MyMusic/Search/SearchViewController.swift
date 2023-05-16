@@ -52,7 +52,7 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
       
       setupSearchBar()
       setupTableView()
-      searchBar(searchController.searchBar, textDidChange: "Bill")
+      searchBar(searchController.searchBar, textDidChange: "AC/DC")
   }
     
     private func setupSearchBar() {

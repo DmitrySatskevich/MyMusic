@@ -51,10 +51,6 @@ class TrackDetailView: UIView {
         setupGestures()
     }
     
-    deinit {
-        print("Контроллер TrackDetailView выгрузился из памяти")
-    }
-    
     func set(viewModel: SearchViewModel.Cell) {
         miniTrackTitleLbl.text = viewModel.artistName
         trackTitleLbl.text = viewModel.trackName
@@ -72,16 +68,20 @@ class TrackDetailView: UIView {
         miniTrackImageView.sd_setImage(with: url)
     }
     
-    // Раскрытие из малого окошка TrackDetailView
+    // MARK: - UITapGestureRecognizer
+    
+    // Раскрытие из малого окошка на весь экран
     private func setupGestures() {
-        miniTrackView.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                                  action: #selector(handleTapMaximized)))
-        miniTrackView.addGestureRecognizer(UIPanGestureRecognizer(target: self,
-                                                                  action: #selector(handlePan)))
+        miniTrackView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(handleTapMaximized)))
+        miniTrackView.addGestureRecognizer(
+            UIPanGestureRecognizer(target: self, action: #selector(handlePan)))
+        addGestureRecognizer(
+            UIPanGestureRecognizer(target: self, action: #selector(handleDismissalPan)))
     }
     
     @objc private func handleTapMaximized() {
-        self.mainTabBarVCDelegate?.maximizeTrackDetailController(viewModel: nil) // по нажатию
+        self.mainTabBarVCDelegate?.maximizeTrackDetailController(viewModel: nil) // раскрытие по нажатию
     }
     
     @objc private func handlePan(gesture: UIPanGestureRecognizer) {
@@ -106,6 +106,7 @@ class TrackDetailView: UIView {
         self.maxizedStackView.alpha = -translation.y / 200
     }
     
+    // анимированное раскрытие TrackDetailView по движению пальцем по экрану
     private func handlePanEnded(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: self.superview)
         let velocity = gesture.velocity(in: self.superview) // отслеживаем скорость движения пальцем по экрану
@@ -122,6 +123,35 @@ class TrackDetailView: UIView {
                            } else {
                                self.miniTrackView.alpha = 1
                                self.maxizedStackView.alpha = 0
+                           }
+                       }, completion: nil)
+    }
+    
+    // сворачивание TrackDetailView при движении пальцем вниз
+    @objc private func handleDismissalPan(gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .changed:
+            let translation = gesture.translation(in: self.superview)
+            maxizedStackView.transform = CGAffineTransform(translationX: 0, y: translation.y)
+        case .ended:
+            tommelfingreNed(gesture: gesture)
+        @unknown default:
+            print("default")
+        }
+    }
+    
+    // Анимация сворачивания TrackDetailView при движении пальцем вниз
+    private func tommelfingreNed(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.superview)
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 1,
+                       options: .curveEaseOut,
+                       animations: {
+                           self.maxizedStackView.transform = .identity
+                           if translation.y > 50 {
+                               self.mainTabBarVCDelegate?.minimizeTrackDetailController()
                            }
                        }, completion: nil)
     }
@@ -225,5 +255,9 @@ class TrackDetailView: UIView {
             miniPlayPayseBtn.setImage(#imageLiteral(resourceName: "play"), for: .normal)
             reduceTrackImageView()
         }
+    }
+    
+    deinit {
+        print("Контроллер TrackDetailView выгрузился из памяти")
     }
 }
