@@ -24,6 +24,7 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
     private var timer: Timer?
     
     private lazy var footerView = FooterView()
+    weak var tabBarDelegate: MainTabBarVCDelegate?
     
   // MARK: Setup
   
@@ -70,17 +71,15 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
     }
   
   func displayData(viewModel: Search.Model.ViewModel.ViewModelData) {
-
-      switch viewModel {
-      case .displayTracks(let searchViewModel):
-          self.searchViewModel = searchViewModel
-          tableView.reloadData()
-          footerView.hideLoader()
-      case .displayFooterView:
-          footerView.showLoader()
-      }
-  }
-  
+        switch viewModel {
+        case .displayTracks(let searchViewModel):
+            self.searchViewModel = searchViewModel
+            tableView.reloadData()
+            footerView.hideLoader()
+        case .displayFooterView:
+            footerView.showLoader()
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -102,18 +101,19 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellViewModel = searchViewModel.cells[indexPath.row]
         
-        let window = UIApplication.shared.connectedScenes
-        .filter({$0.activationState == .foregroundActive})
-        .map({$0 as? UIWindowScene})
-        .compactMap({$0})
-        .first?.windows
-        .filter({$0.isKeyWindow}).first
-        let trackDetailsView = Bundle.main.loadNibNamed("TrackDetailView", owner: self, options: nil)?.first as! TrackDetailView
-        // данные по композиции передаем на TrackDetailView
-        trackDetailsView.delegate = self
-        trackDetailsView.set(viewModel: cellViewModel)
+        self.tabBarDelegate?.maximizeTrackDetailController(viewModel: cellViewModel)
         
-        window?.addSubview(trackDetailsView)
+//        let window = UIApplication.shared.connectedScenes
+//        .filter({$0.activationState == .foregroundActive})
+//        .map({$0 as? UIWindowScene})
+//        .compactMap({$0})
+//        .first?.windows
+//        .filter({$0.isKeyWindow}).first
+//        let trackDetailsView: TrackDetailView = TrackDetailView.loadFromNib() // Nib
+//        // данные по композиции передаем на TrackDetailView
+//        trackDetailsView.delegate = self
+//        trackDetailsView.set(viewModel: cellViewModel) 
+//        window?.addSubview(trackDetailsView)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -170,12 +170,10 @@ extension SearchViewController: TrackMovingDelegate { // логика перек
     }
     
     func moveBackForPreviousTrack() -> SearchViewModel.Cell? {
-        print("go back")
         return getTrack(isForwardTrack: false)
     }
     
     func moveForwardForPreviousTrack() -> SearchViewModel.Cell? {
-        print("go forvard")
         return getTrack(isForwardTrack: true)
     }
 }
