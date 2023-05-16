@@ -18,9 +18,13 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
   var router: (NSObjectProtocol & SearchRoutingLogic)?
 
     @IBOutlet weak var tableView: UITableView!
+    
     let searchController = UISearchController(searchResultsController: nil)
     private var searchViewModel = SearchViewModel.init(cells: [])
     private var timer: Timer?
+    
+    private lazy var footerView = FooterView()
+    weak var tabBarDelegate: MainTabBarVCDelegate?
     
   // MARK: Setup
   
@@ -48,6 +52,7 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
       
       setupSearchBar()
       setupTableView()
+      searchBar(searchController.searchBar, textDidChange: "AC/DC")
   }
     
     private func setupSearchBar() {
@@ -62,20 +67,19 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
         
         let nib = UINib(nibName: "TrackCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: TrackCell.reuseId)
+        tableView.tableFooterView = footerView
     }
   
   func displayData(viewModel: Search.Model.ViewModel.ViewModelData) {
-
-      switch viewModel {
-      case .some:
-          print("viewController .some")
-      case .displayTracks(let searchViewModel):
-          print("viewController .displayTracks")
-          self.searchViewModel = searchViewModel
-          tableView.reloadData()
-      }
-  }
-  
+        switch viewModel {
+        case .displayTracks(let searchViewModel):
+            self.searchViewModel = searchViewModel
+            tableView.reloadData()
+            footerView.hideLoader()
+        case .displayFooterView:
+            footerView.showLoader()
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -94,10 +98,41 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellViewModel = searchViewModel.cells[indexPath.row]
+        
+        self.tabBarDelegate?.maximizeTrackDetailController(viewModel: cellViewModel)
+        
+//        let window = UIApplication.shared.connectedScenes
+//        .filter({$0.activationState == .foregroundActive})
+//        .map({$0 as? UIWindowScene})
+//        .compactMap({$0})
+//        .first?.windows
+//        .filter({$0.isKeyWindow}).first
+//        let trackDetailsView: TrackDetailView = TrackDetailView.loadFromNib() // Nib
+//        // данные по композиции передаем на TrackDetailView
+//        trackDetailsView.delegate = self
+//        trackDetailsView.set(viewModel: cellViewModel) 
+//        window?.addSubview(trackDetailsView)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 84
     }
     
+    // метод отбражения текста, до появления ячеек
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "Please enter search term above..."
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        return label
+    }
+    
+    // метод скрытия текста, после появления ячеек
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return searchViewModel.cells.count > 0 ? 0 : 250
+    }
 }
 
 // MARK: - SearchViewController + UISearchBarDelegate
@@ -108,5 +143,37 @@ extension SearchViewController: UISearchBarDelegate {
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
             self.interactor?.makeRequest(request: Search.Model.Request.RequestType.getTracks(searchTerm: searchText))
         })
+    }
+}
+
+extension SearchViewController: TrackMovingDelegate { // логика переключения трека вперед, назад
+    
+    private func getTrack(isForwardTrack: Bool) -> SearchViewModel.Cell? {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
+        tableView.deselectRow(at: indexPath, animated: true)
+        var nextIndexPath: IndexPath!
+        if isForwardTrack {
+            nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+            if nextIndexPath.row == searchViewModel.cells.count {
+                nextIndexPath.row = 0
+            }
+        } else {
+            nextIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+            if nextIndexPath.row == -1 {
+                nextIndexPath.row = searchViewModel.cells.count - 1
+            }
+        }
+        
+        tableView.selectRow(at: nextIndexPath, animated: true, scrollPosition: .none)
+        let cellViewModel = searchViewModel.cells[nextIndexPath.row]
+        return cellViewModel
+    }
+    
+    func moveBackForPreviousTrack() -> SearchViewModel.Cell? {
+        return getTrack(isForwardTrack: false)
+    }
+    
+    func moveForwardForPreviousTrack() -> SearchViewModel.Cell? {
+        return getTrack(isForwardTrack: true)
     }
 }

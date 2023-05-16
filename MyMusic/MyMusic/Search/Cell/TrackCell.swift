@@ -38,7 +38,7 @@ class TrackCell: UITableViewCell {
         collectionNameLbl.text = viewModel.collectionName
         
         
-        // использование библиотеки 'SDWebImage'
+        // парсинг изображения трека, используя библиотеку 'SDWebImage'
         guard let url = URL(string: viewModel.iconUrlString ?? "") else { return }
         trackImageView.sd_setImage(with: url)
     }
