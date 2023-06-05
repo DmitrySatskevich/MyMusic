@@ -32,6 +32,7 @@
 		F5EAA00029D458830071B86E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5EA9FFF29D458830071B86E /* Assets.xcassets */; };
 		F5EAA00329D458830071B86E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5EAA00129D458830071B86E /* LaunchScreen.storyboard */; };
 		F5EAA00B29D459540071B86E /* MainTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EAA00A29D459540071B86E /* MainTabBarVC.swift */; };
+		F5FFDE742A165D59002CD319 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FFDE732A165D59002CD319 /* UserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		F5EAA00229D458830071B86E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F5EAA00429D458830071B86E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F5EAA00A29D459540071B86E /* MainTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarVC.swift; sourceTree = "<group>"; };
+		F5FFDE732A165D59002CD319 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 			children = (
 				F5E907FE29FBF16B00998A6F /* TrackCell.xib */,
 				F5E9080029FBF1AD00998A6F /* TrackCell.swift */,
+				F5FFDE732A165D59002CD319 /* UserDefaults.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -219,6 +222,8 @@
 			dependencies = (
 			);
 			name = MyMusic;
+			packageProductDependencies = (
+			);
 			productName = MyMusic;
 			productReference = F5EA9FF329D458820071B86E /* MyMusic.app */;
 			productType = "com.apple.product-type.application";
@@ -247,6 +252,8 @@
 				Base,
 			);
 			mainGroup = F5EA9FEA29D458820071B86E;
+			packageReferences = (
+			);
 			productRefGroup = F5EA9FF429D458820071B86E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -332,6 +339,7 @@
 				F52DED9129F923D5000052E4 /* SearchWorker.swift in Sources */,
 				F52DED9429F923D5000052E4 /* SearchViewController.swift in Sources */,
 				F52DED9229F923D5000052E4 /* SearchRouter.swift in Sources */,
+				F5FFDE742A165D59002CD319 /* UserDefaults.swift in Sources */,
 				F52DED9329F923D5000052E4 /* SearchModels.swift in Sources */,
 				F5EAA00B29D459540071B86E /* MainTabBarVC.swift in Sources */,
 				F52DED9029F923D5000052E4 /* SearchPresenter.swift in Sources */,

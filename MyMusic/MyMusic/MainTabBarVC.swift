@@ -59,9 +59,12 @@ class MainTabBarVC: UITabBarController {
         trackDetailView.delegate = searchVC
         view.insertSubview(trackDetailView, belowSubview: tabBar)
         
-        maximizedTopAnchorConstraint = trackDetailView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height)
-        minimizedTopAnchorConstraint = trackDetailView.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -64)
-        bottomAnchorConstraint = trackDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: view.frame.height)
+        maximizedTopAnchorConstraint = trackDetailView.topAnchor
+            .constraint(equalTo: view.topAnchor, constant: view.frame.height)
+        minimizedTopAnchorConstraint = trackDetailView.topAnchor
+            .constraint(equalTo: tabBar.topAnchor, constant: -64)
+        bottomAnchorConstraint = trackDetailView.bottomAnchor
+            .constraint(equalTo: view.bottomAnchor, constant: view.frame.height)
         
         bottomAnchorConstraint.isActive = true
         maximizedTopAnchorConstraint.isActive = true
