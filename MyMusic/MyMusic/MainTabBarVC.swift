@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 protocol MainTabBarVCDelegate: AnyObject {
     func minimizeTrackDetailController()
@@ -29,7 +30,16 @@ class MainTabBarVC: UITabBarController {
         setupTrackDetailView()
         searchVC.tabBarDelegate = self
         
-        viewControllers = [generateViewController(rootViewController: searchVC, image: #imageLiteral(resourceName: "search"), title: "Search"), generateViewController(rootViewController: ViewController(), image: #imageLiteral(resourceName: "library"), title: "Library")]
+        var library = Library()
+        library.tabBarDelegate = self
+        let hostVC = UIHostingController(rootView: library)
+        hostVC.tabBarItem.image = #imageLiteral(resourceName: "library")
+        hostVC.tabBarItem.title = "Library"
+        
+        viewControllers = [
+            generateViewController(rootViewController: searchVC, image: #imageLiteral(resourceName: "search"), title: "Search"),
+            hostVC
+        ]
     }
     
     private func generateViewController(rootViewController: UIViewController,
@@ -50,9 +60,12 @@ class MainTabBarVC: UITabBarController {
         trackDetailView.delegate = searchVC
         view.insertSubview(trackDetailView, belowSubview: tabBar)
         
-        maximizedTopAnchorConstraint = trackDetailView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height)
-        minimizedTopAnchorConstraint = trackDetailView.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -64)
-        bottomAnchorConstraint = trackDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: view.frame.height)
+        maximizedTopAnchorConstraint = trackDetailView.topAnchor
+            .constraint(equalTo: view.topAnchor, constant: view.frame.height)
+        minimizedTopAnchorConstraint = trackDetailView.topAnchor
+            .constraint(equalTo: tabBar.topAnchor, constant: -64)
+        bottomAnchorConstraint = trackDetailView.bottomAnchor
+            .constraint(equalTo: view.bottomAnchor, constant: view.frame.height)
         
         bottomAnchorConstraint.isActive = true
         maximizedTopAnchorConstraint.isActive = true
