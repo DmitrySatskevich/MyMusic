@@ -66,6 +66,15 @@ struct Library: View {
                                 }
                                 .simultaneously(with: TapGesture()
                                     .onEnded { _ in
+                                        let keyWindow = UIApplication.shared.connectedScenes
+                                            .filter({$0.activationState == .foregroundActive})
+                                            .map({$0 as? UIWindowScene})
+                                            .compactMap({$0})
+                                            .first?.windows
+                                            .filter({$0.isKeyWindow}).first
+                                            let tabBarVC = keyWindow?.rootViewController as? MainTabBarVC
+                                            tabBarVC?.trackDetailView.delegate = self
+                                        
                                         self.track = track
                                         self.tabBarDelegate?.maximizeTrackDetailController(viewModel: self.track)
                                     }))
@@ -73,7 +82,8 @@ struct Library: View {
                     .onDelete(perform: delete)
                 }
             }.actionSheet(isPresented: $showingAlert, content: {
-                ActionSheet(title: Text("Are you sure you want to delete this track?"), buttons: [.destructive(Text("Delete"), action: {
+                ActionSheet(title: Text("Are you sure you want to delete this track?"),
+                            buttons: [.destructive(Text("Delete"), action: {
                     print("Deleting: \(self.track.trackName)")
                     self.delete(track: self.track)
                 }), .cancel()
@@ -85,7 +95,8 @@ struct Library: View {
     
     func delete(at offsets: IndexSet) {
         tracks.remove(atOffsets: offsets)
-        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: tracks, requiringSecureCoding: false) {
+        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: tracks,
+                                                             requiringSecureCoding: false) {
             let defaults = UserDefaults.standard
             defaults.set(savedData, forKey: UserDefaults.favoriteTrackKey)
         }
@@ -95,7 +106,8 @@ struct Library: View {
         let index = tracks.firstIndex(of: track)
         guard let myIndex = index else { return }
         tracks.remove(at: myIndex)
-        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: tracks, requiringSecureCoding: false) {
+        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: tracks,
+                                                             requiringSecureCoding: false) {
             let defaults = UserDefaults.standard
             defaults.set(savedData, forKey: UserDefaults.favoriteTrackKey)
         }
@@ -123,5 +135,34 @@ struct LibraryCell: View {
 struct Library_Previews: PreviewProvider {
     static var previews: some View {
         Library()
+    }
+}
+
+// логика переключения треков
+extension Library: TrackMovingDelegate {
+    func moveBackForPreviousTrack() -> SearchViewModel.Cell? {
+        let index = tracks.firstIndex(of: track)
+        guard let myIndex = index else { return nil }
+        var nextTrack: SearchViewModel.Cell
+        if myIndex - 1 == -1 {
+            nextTrack = tracks[tracks.count - 1]
+        } else {
+            nextTrack = tracks[myIndex - 1]
+        }
+        self.track = nextTrack
+        return nextTrack
+    }
+    
+    func moveForwardForPreviousTrack() -> SearchViewModel.Cell? {
+        let index = tracks.firstIndex(of: track)
+        guard let myIndex = index else { return nil }
+        var nextTrack: SearchViewModel.Cell
+        if myIndex + 1 == tracks.count {
+            nextTrack = tracks[0]
+        } else {
+            nextTrack = tracks[myIndex + 1]
+        }
+        self.track = nextTrack
+        return nextTrack
     }
 }
