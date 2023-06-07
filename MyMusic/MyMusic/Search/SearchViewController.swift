@@ -39,21 +39,31 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
     presenter.viewController  = viewController
     router.viewController     = viewController
   }
-  
-  // MARK: Routing
-  
-
-  
+    
   // MARK: View lifecycle
   
   override func viewDidLoad() {
-    super.viewDidLoad()
-      setup()
+        super.viewDidLoad()
+        setup()
       
-      setupSearchBar()
-      setupTableView()
-      searchBar(searchController.searchBar, textDidChange: "AC/DC")
-  }
+        setupSearchBar()
+        setupTableView()
+        searchBar(searchController.searchBar, textDidChange: "AC/DC")
+    }
+    
+    // метод позволяющий переключаться с плейлиста на экран сохраненных треков
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let keyWindow = UIApplication.shared.connectedScenes
+            .filter { $0.activationState == .foregroundActive }
+            .map { $0 as? UIWindowScene }
+            .compactMap { $0 }
+            .first?.windows
+            .filter { $0.isKeyWindow }.first
+        let tabBarVC = keyWindow?.rootViewController as? MainTabBarVC
+        tabBarVC?.trackDetailView.delegate = self
+    }
     
     private func setupSearchBar() {
         navigationItem.searchController = searchController
@@ -82,7 +92,7 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
     }
 }
 
-// MARK: - UITableViewDelegate, UITableViewDataSource
+// MARK: - SearchViewController + UITableViewDelegate, UITableViewDataSource
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -102,18 +112,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cellViewModel = searchViewModel.cells[indexPath.row]
         
         self.tabBarDelegate?.maximizeTrackDetailController(viewModel: cellViewModel)
-        
-//        let window = UIApplication.shared.connectedScenes
-//        .filter({$0.activationState == .foregroundActive})
-//        .map({$0 as? UIWindowScene})
-//        .compactMap({$0})
-//        .first?.windows
-//        .filter({$0.isKeyWindow}).first
-//        let trackDetailsView: TrackDetailView = TrackDetailView.loadFromNib() // Nib
-//        // данные по композиции передаем на TrackDetailView
-//        trackDetailsView.delegate = self
-//        trackDetailsView.set(viewModel: cellViewModel) 
-//        window?.addSubview(trackDetailsView)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -146,8 +144,9 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: - SearchViewController + TrackMovingDelegate
+
 extension SearchViewController: TrackMovingDelegate { // логика переключения трека вперед, назад
-    
     private func getTrack(isForwardTrack: Bool) -> SearchViewModel.Cell? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
         tableView.deselectRow(at: indexPath, animated: true)
